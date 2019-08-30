@@ -1,0 +1,281 @@
+{% extends 'base.html' %}
+
+{% block navbar %}
+    <li class="nav-item">
+        <a class="nav-link" href="{{ url_for('index') }}">Home</a>
+    </li>
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown">Schools</a>
+        <div class="dropdown-menu">
+            <a class="dropdown-item" href="{{ url_for('school_list', level='primary') }}">Primary Schools</a>
+            <a class="dropdown-item" href="{{ url_for('school_list', level='secondary') }}">Secondary Schools</a>
+            <a class="dropdown-item" href="{{ url_for('school_list', level='central') }}">Central Schools</a>
+            <a class="dropdown-item" href="{{ url_for('school_list', level='specific') }}">Schools for Specific Purposes</a>
+        </div>
+    </li>
+{% endblock %}
+
+{% block content %}
+    <div class="snm-container container-fluid">
+        <div class="row">
+            <div id="snm-school-map"></div>
+        </div>
+        <div class="row snm-school-heading">
+            <h4 align="center">{{ school.name }}</h4>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 snm-school-box">
+                <center><img class="snm-school-logo" src="{{ school.logo }}" alt="{{ school.name }} logo"></center>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>School Information</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Level:</td>
+                            <td>
+                                {% if school.level == 'Primary School' %}
+                                    <a href="{{ url_for('school_list', level='primary') }}">{{ school.level }}</a>
+                                {% elif school.level == 'Secondary School' %}
+                                    <a href="{{ url_for('school_list', level='secondary') }}">{{ school.level }}</a>
+                                {% elif school.level == 'Central/Community School' %}
+                                    <a href="{{ url_for('school_list', level='central') }}">{{ school.level }}</a>
+                                {% else %}
+                                    <a href="{{ url_for('school_list', level='specific') }}">{{ school.level }}</a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Gender:</td>
+                            <td>{{ school.gender }}</td>
+                        </tr>
+                        <tr>
+                            <td>Address:</td>
+                            <td>
+                                <a href="https://www.google.com/maps/dir/?api=1&destination={{ school.name }}" target="_blank">{{ school.street }}, {{ school.suburb }} NSW {{ school.postcode }}</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Phone:</td>
+                            <td>{{ school.phone }}</td>
+                        </tr>
+                        <tr>
+                            <td>Email:</td>
+                            <td><a href="mailto:{{ school.email }}">{{ school.email }}</a></td>
+                        </tr>
+                        <tr>
+                            <td>Fax:</td>
+                            <td>{{ school.fax }}</td>
+                        </tr>
+                        <tr>
+                            <td>Website:</td>
+                            <td><a href="{{ school.website }}" target="_blank">{{ school.website }}</a></td>
+                        </tr>
+                        {% if school.level != 'Secondary School' %}
+                            {% if school.level != 'Schools for Specific Purposes' %}
+                                <tr>
+                                    <td>Opportunity Classes:</td>
+                                    <td>
+                                        {% if school.opportunity_classes %}
+                                            Yes
+                                        {% else %}
+                                            No
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            {% endif %}
+                            <tr>
+                                <td>Preschool:</td>
+                                <td>
+                                    {% if school.preschool %}
+                                        Yes
+                                    {% else %}
+                                        No
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endif %}
+                        {% if school.level != 'Primary School' %}
+                            {% if school.level != 'Schools for Specific Purposes' %}
+                                <tr>
+                                    <td>Selective:</td>
+                                    <td>{{ school.selective }}</td>
+                                </tr>
+                            {% endif %}
+                            <tr>
+                                <td>Intensive English Centre:</td>
+                                <td>
+                                    {% if school.intensive_english_centre %}
+                                        Yes
+                                    {% else %}
+                                        No
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endif %}
+                        <tr>
+                            <td>Healthy Canteen:</td>
+                            <td>
+                                {% if school.healthy_canteen %}
+                                    Yes
+                                {% else %}
+                                    No
+                                {% endif %}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Late Opening</td>
+                            <td>
+                                {% if school.late_opening %}
+                                    Yes
+                                {% else %}
+                                    No
+                                {% endif %}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                {% if 'train_station' in school %}
+                    train_station: {{ school.train_station }}
+                    train_distance: {{ school.train_distance }}
+                    train_duration: {{ school.train_duration }}
+                {% endif %}
+            </div>
+            <div class="col-lg-4 snm-school-box">
+                <table class="table table-striped" style="margin: 15px 0 0 0;">
+                    <thead>
+                        <tr>
+                            <th>Students</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Enrolments:</td>
+                            <td>
+                                {% if school.enrolments > 0 %}
+                                    {{ school.enrolments }}
+                                {% else %}
+                                    No Data
+                                {% endif %}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="snm-student-stats">
+                    <p><b>Indigenous Students</b></p>
+                    <div id="indigenous-chart"></div>
+                </div>
+                <div class="snm-student-stats">
+                    <p><b>LBOTE Students</b> <small>(language backgrounds other than english)</small></p>
+                    <div id="lbote-chart"></div>
+                </div>
+            </div>
+            <div class="col-lg-4 snm-school-box">
+                <div class="snm-student-stats" style="margin-top: 15px;">
+                    <p><b>ICSEA Value</b> <small>(index of community socio-educational advantage)</small></p>
+                    <div id="icsea-chart"></div>
+                </div>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>School Statistics</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Attendance Rate:</td>
+                            {% if 'attendance_rate' in school %}
+                                <td>{{ school.attendance_rate }}%</td>
+                            {% else %}
+                                <td>No Data</td>
+                            {% endif %}
+                        </tr>
+                        {% if 'opportunity_classes_entry_score' in school %}
+                            <tr>
+                                <td>Opportunity Classes Minimum Entry Score</td>
+                                <td>{{ school.opportunity_classes_entry_score }}</td>
+                            </tr>
+                        {% endif %}
+                        {% if 'selective_entry_score' in school %}
+                            <tr>
+                                <td>Selective Minimum Entry Score</td>
+                                <td>{{ school.selective_entry_score }}</td>
+                            </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Support Classes</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if school.support_classes|length > 0 %}
+                            {% for class in school.support_classes %}
+                                <tr>
+                                    <td>
+                                        {% if class == 'MC' %}
+                                            Supporting students with a range of disabilities with similar support needs (MC Multi Categorical)
+                                        {% elif class == 'IS' %}
+                                            Supporting students with severe intellectual disability (IS)
+                                        {% elif class == 'IO/IS' %}
+                                            Supporting students with moderate and students with severe intellectual disability (IO/IS)
+                                        {% elif class == 'IO' %}
+                                            Supporting students with moderate intellectual disability (IO)
+                                        {% elif class == 'IM' %}
+                                            Supporting students with mild intellectual disability (IM)
+                                        {% elif class == 'P' %}
+                                            Supporting students with physical disability (P)
+                                        {% elif class == 'ED' %}
+                                            Supporting students with mental health issues (ED Emotional Disturbance)
+                                        {% elif class == 'IO/Au' %}
+                                            Supporting students with autism and/or moderate intellectual disability (IO/Au)
+                                        {% elif class == 'Au' %}
+                                            Supporting students with autism (Au)
+                                        {% elif class == 'EI' %}
+                                            Supporting students with disability prior to school (EI Early Intervention)
+                                        {% elif class == 'BD' %}
+                                            Supporting students with behavioural issues (BD)
+                                        {% elif class == 'DB' %}
+                                            Supporting students who are Deaf/Blind (DB)
+                                        {% elif class == 'H' %}
+                                            Supporting students who are deaf or hearing impaired (H)
+                                        {% else %}
+                                            Supporting students who are blind or vision impaired (V)
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        {% else %}
+                            <tr>
+                                <td>None</td>
+                            </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/charts.js') }}"></script>
+    <script type="text/javascript">
+        initChartData(
+            {{ school.location["coordinates"][1] }},
+            {{ school.location["coordinates"][0] }},
+            "{{ school.name }}",
+            {{ school.indigenous_pct }},
+            {{ school.lbote_pct }},
+            {{ school.icsea }}
+        );
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key={{ api_key }}&callback=initMap" async defer></script>
+{% endblock %}

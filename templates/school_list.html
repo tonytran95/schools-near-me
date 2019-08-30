@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+
+{% block navbar %}
+    <li class="nav-item">
+        <a class="nav-link" href="{{ url_for('index') }}">Home</a>
+    </li>
+    <li class="nav-item dropdown active">
+        <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown">Schools</a>
+        <div class="dropdown-menu">
+            {% if level == 'primary' %}
+                <a class="dropdown-item active" href="{{ url_for('school_list', level='primary') }}">Primary Schools</a>
+            {% else %}
+                <a class="dropdown-item" href="{{ url_for('school_list', level='primary') }}">Primary Schools</a>
+            {% endif %}
+            {% if level == 'secondary' %}
+                <a class="dropdown-item active" href="{{ url_for('school_list', level='secondary') }}">Secondary Schools</a>
+            {% else %}
+                <a class="dropdown-item" href="{{ url_for('school_list', level='secondary') }}">Secondary Schools</a>
+            {% endif %}
+            {% if level == 'central' %}
+                <a class="dropdown-item active" href="{{ url_for('school_list', level='central') }}">Central Schools</a>
+            {% else %}
+                <a class="dropdown-item" href="{{ url_for('school_list', level='central') }}">Central Schools</a>
+            {% endif %}
+            {% if level == 'specific' %}
+                <a class="dropdown-item active" href="{{ url_for('school_list', level='specific') }}">Schools for Specific Purposes</a>
+            {% else %}
+                <a class="dropdown-item" href="{{ url_for('school_list', level='specific') }}">Schools for Specific Purposes</a>
+            {% endif %}
+        </div>
+    </li>
+{% endblock %}
+
+{% block content %}
+    <div class="snm-container container-fluid">
+        {% if level == 'primary' %}
+            <p class="h5 mt-3"><a href="{{ url_for('school_list', level=level) }}">Primary Schools</a></p>
+        {% elif level == 'secondary' %}
+            <p class="h5 mt-3"><a href="{{ url_for('school_list', level=level) }}">Secondary Schools</a></p>
+        {% elif level == 'central' %}
+            <p class="h5 mt-3"><a href="{{ url_for('school_list', level=level) }}">Central Schools</a></p>
+        {% else %}
+            <p class="h5 mt-3"><a href="{{ url_for('school_list', level=level) }}">Schools for Specific Purposes</a></p>
+        {% endif %}
+        <form class="input-group mb-3 mt-3">
+            <input type="search" placeholder="Search..." class="form-control" name="query">
+            <div class="input-group-append">
+                <button type="submit" class="btn btn-primary">
+                    Search
+                </button>
+            </div>
+        </form>
+        {{ pagination.links }}
+        {{ pagination.info }}
+        <table class="table table-sm table-responsive-md table-bordered table-striped">
+            <thead class="thead-light">
+                <tr>
+                    <th></th>
+                    <th>Name</th>
+                    <th>Address</th>
+                    <th>Enrolments</th>
+                    <th>Website</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for school in schools %}
+                    <tr>
+                        <td><center><img src="{{ school.logo }}" alt="{{ school.name }} logo" height="75px"></center></td>
+                        <td><a href="{{ url_for('school_page', code=school.code) }}">{{ school.name }}</a></td>
+                        <td>{{ school.street }}, {{ school.suburb }}, {{ school.postcode }}</td>
+                        <td>
+                            {% if school.enrolments > 0 %}
+                                {{ school.enrolments }}
+                            {% else %}
+                                No Data
+                            {% endif %}
+                        </td>
+                        <td><a href="{{ school.website }}" target="_blank">{{ school.website }}</a></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {{ pagination.links }}
+    </div>
+{% endblock %}

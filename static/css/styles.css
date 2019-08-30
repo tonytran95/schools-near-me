@@ -1,0 +1,193 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: #f7f7f7;
+}
+
+.snm-container {
+    padding-top: 56px;
+}
+
+/* index.html styling */
+.snm-sidebar {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    height: calc(100vh - 56px);
+    padding: 0;
+    border-right: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.snm-search,
+.snm-filter-item {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.snm-search {
+    background-color: #eee;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 auto;
+    flex: 0 0 auto;
+    padding: 15px;
+}
+
+#snm-search-bar {
+    -webkit-box-flex: 1;
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+    margin-right: 10px;
+}
+
+.snm-filter-list-toggler {
+    background-color: #ddd;
+    text-align: center;
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 auto;
+    flex: 0 0 auto;
+}
+
+.snm-filter-list-toggler > button {
+    width: 100%;
+    transition: transform 0.3s;
+}
+
+.snm-filter-list-toggler > .collapsed {
+    transform: rotate(-180deg);
+}
+
+.snm-filter-list {
+    background-color: #f7f7f7;
+    overflow-y: auto;
+    -webkit-box-flex: 1;
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+    padding: 15px;
+}
+
+.snm-filter-item {
+    padding: 15px;
+}
+
+#filter-support-classes {
+    margin-top: 15px;
+}
+
+#filter-train-station {
+    padding: 30px 0 15px 0;
+}
+
+.snm-filter-item:last-child {
+    border-bottom: 0;
+}
+
+.snm-filter-item-label {
+    font-weight: 600;
+}
+
+.snm-filter-item-value {
+    font-weight: 400;
+}
+
+.snm-map {
+    padding: 0px;
+}
+
+@media only screen and (min-width: 768px) {
+    .snm-filter-list {
+        display: block!important;
+    }
+}
+
+@media only screen and (max-width: 767.98px) {
+    .snm-navbar {
+        z-index: 4;
+    }
+
+    .snm-sidebar {
+        z-index: 3;
+        height: inherit;
+        border-right: 0;
+        padding-top: 101px;
+    }
+
+    .snm-search {
+        z-index: 3;
+        position: fixed;
+        top: 56px;
+        left: 0;
+        width: 100%;
+    }
+
+    .snm-filter-list-toggler {
+        z-index: 3;
+        position: fixed;
+        top: 125px;
+        left: 0;
+        width: 100%;
+    }
+
+    .snm-filter-list {
+        z-index: 2;
+    }
+
+    .snm-filter-backdrop {
+        z-index: 1;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        height: calc(100vh - 157px);
+        width: 100%;
+        background-color: #f7f7f7;
+    }
+
+    .snm-map {
+        z-index: 0;
+        position: fixed!important;
+        bottom: 0;
+        left: 0;
+        height: calc(100vh - 157px);
+    }
+
+    .no-transition {
+        transition: none;
+    }
+}
+
+/* school_profile.html styling */
+#snm-school-map {
+    height: 300px;
+    width: 100%;
+}
+
+.snm-school-heading {
+    background-color: #eee;
+    justify-content: center;
+    padding-top: 8px;
+}
+
+.snm-school-logo {
+    margin: 15px 0;
+    height: 150px;
+}
+
+.snm-school-box {
+    background-color: #f7f7f7;
+    height: 100%;
+}
+
+.snm-student-stats {
+    padding: 12px;
+    border-top: 1px solid #dee2e6;
+}
+
+#indigenous-chart, #lbote-chart, #icsea-chart {
+    width: 100%;
+}

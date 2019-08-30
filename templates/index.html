@@ -1,0 +1,162 @@
+{% extends 'base.html' %}
+
+{% block navbar %}
+    <li class="nav-item active">
+        <a class="nav-link" href="{{ url_for('index') }}">Home</a>
+    </li>
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown">Schools</a>
+        <div class="dropdown-menu">
+            <a class="dropdown-item" href="{{ url_for('school_list', level='primary') }}">Primary Schools</a>
+            <a class="dropdown-item" href="{{ url_for('school_list', level='secondary') }}">Secondary Schools</a>
+            <a class="dropdown-item" href="{{ url_for('school_list', level='central') }}">Central Schools</a>
+            <a class="dropdown-item" href="{{ url_for('school_list', level='specific') }}">Schools for Specific Purposes</a>
+        </div>
+    </li>
+{% endblock %}
+
+{% block content %}
+    <div class="snm-container container-fluid">
+        <div class="row" data-toggle="collapse" data-target="#snm-navbar-collapse.show">
+            <div class="snm-sidebar col-md-4 col-xl-3">
+                <div class="snm-search">
+                    <input type="search" placeholder="Enter your address..." class="form-control" id="snm-search-bar">
+                    <button type="button" class="btn btn-primary" onclick="search()" id="snm-search-button">
+                        Search
+                    </button>
+                </div>
+                <div class="snm-filter-list-toggler">
+                    <button class="btn btn-link d-md-none p-0 collapsed" type="button" data-toggle="collapse" data-target="#snm-filter-backdrop-collapse,#snm-filter-list-collapse">
+                        <svg width="30" height="30" role="img" focusable="false">
+                            <title>Toggle Filters</title>
+                            <path d="M15.997 13.374l-7.081 7.081L7 18.54l8.997-8.998 9.003 9-1.916 1.916z"></path>
+                        </svg>
+                    </button>
+                </div>
+                <div class="snm-filter-backdrop collapse no-transition" id="snm-filter-backdrop-collapse"></div>
+                <div class="snm-filter-list collapse no-transition" id="snm-filter-list-collapse">
+                    <div class="snm-filter-item">
+                        <p><span class="snm-filter-item-label">Search Distance:</span> <span id="filter-distance-value"></span>km</p>
+                        <input type="range" class="custom-range" min="1" max="20" value="5" id="filter-distance">
+                    </div>
+                    <div class="snm-filter-item">
+                        <p class="snm-filter-item-label">Level</p>
+                        <div class="custom-control custom-radio custom-control-inline">
+                            <input type="radio" class="custom-control-input" id="primary-radio" value="Primary School" name="level-radio" checked>
+                            <label class="custom-control-label" for="primary-radio">Primary</label>
+                        </div>
+                        <div class="custom-control custom-radio custom-control-inline">
+                            <input type="radio" class="custom-control-input" id="secondary-radio" value="Secondary School" name="level-radio">
+                            <label class="custom-control-label" for="secondary-radio">Secondary</label>
+                        </div>
+                        <div class="custom-control custom-radio custom-control-inline">
+                            <input type="radio" class="custom-control-input" id="central-radio" value="Central/Community School" name="level-radio">
+                            <label class="custom-control-label" for="central-radio">Central</label>
+                        </div>
+                        <div class="custom-control custom-radio custom-control-inline">
+                            <input type="radio" class="custom-control-input" id="specific-radio" value="Schools for Specific Purposes" name="level-radio">
+                            <label class="custom-control-label" for="specific-radio">Schools for Specific Purposes</label>
+                        </div>
+                    </div>
+                    <div class="snm-filter-item">
+                        <p class="snm-filter-item-label">Gender</p>
+                        <div class="custom-control custom-checkbox custom-control-inline">
+                            <input type="checkbox" class="custom-control-input" id="boys-checkbox" value="Boys" disabled>
+                            <label class="custom-control-label" for="boys-checkbox">Boys</label>
+                        </div>
+                        <div class="custom-control custom-checkbox custom-control-inline">
+                            <input type="checkbox" class="custom-control-input" id="girls-checkbox" value="Girls" disabled>
+                            <label class="custom-control-label" for="girls-checkbox">Girls</label>
+                        </div>
+                        <div class="custom-control custom-checkbox custom-control-inline">
+                            <input type="checkbox" class="custom-control-input" id="coed-checkbox" value="Coed" disabled>
+                            <label class="custom-control-label" for="coed-checkbox">Coed</label>
+                        </div>
+                    </div>
+                    <div class="snm-filter-item">
+                        <p class="snm-filter-item-label">Opportunity Classes</p>
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="opportunity-classes-checkbox">
+                            <label class="custom-control-label" for="opportunity-classes-checkbox">Yes</label>
+                        </div>
+                    </div>
+                    <div class="snm-filter-item">
+                        <p class="snm-filter-item-label">Selective</p>
+                        <div class="custom-control custom-checkbox custom-control-inline">
+                            <input type="checkbox" class="custom-control-input" id="fully-selective-checkbox" value="Fully Selective" disabled>
+                            <label class="custom-control-label" for="fully-selective-checkbox">Fully Selective</label>
+                        </div>
+                        <div class="custom-control custom-checkbox custom-control-inline">
+                            <input type="checkbox" class="custom-control-input" id="partially-selective-checkbox" value="Partially Selective" disabled>
+                            <label class="custom-control-label" for="partially-selective-checkbox">Partially Selective</label>
+                        </div>
+                        <div class="custom-control custom-checkbox custom-control-inline">
+                            <input type="checkbox" class="custom-control-input" id="not-selective-checkbox" value="Not Selective" disabled>
+                            <label class="custom-control-label" for="not-selective-checkbox">Not Selective</label>
+                        </div>
+                    </div>
+                    <div class="snm-filter-item">
+                        <p><span class="snm-filter-item-label">Enrolments:</span> < <span id="filter-enrolments-value"></span> students</p>
+                        <input type="range" class="custom-range" min="0" max="2000" step="10" value="2000" id="filter-enrolments">
+                    </div>
+                    <div class="snm-filter-item">
+                        <p><span class="snm-filter-item-label">Support Classes</span></p>
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="support-classes-checkbox">
+                            <label class="custom-control-label" for="support-classes-checkbox">Supporting students:</label>
+                        </div>
+                        <select class="form-control" id="filter-support-classes" disabled>
+                            <option value="MC">with a range of disabilities</option>
+                            <option value="IS">with severe intellectual disability</option>
+                            <option value="IO/IS">with moderate or severe intellectual disability</option>
+                            <option value="IO">with moderate intellectual disability</option>
+                            <option value="IM">with mild intellectual disability</option>
+                            <option value="P">with physical disability</option>
+                            <option value="ED">with mental health issues</option>
+                            <option value="IO/Au">with autism and/or moderate intellectual disability</option>
+                            <option value="Au">with autism</option>
+                            <option value="EI">with disability prior to school</option>
+                            <option value="BD">with behavioural issues</option>
+                            <option value="DB">who are Deaf/Blind</option>
+                            <option value="H">who are deaf or hearing impaired</option>
+                            <option value="V">who are blind or vision impaired</option>
+                        </select>
+                    </div>
+                    <div class="snm-filter-item">
+                        <p class="snm-filter-item-label">Public Transport</p>
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="train-station-checkbox">
+                            <label class="custom-control-label" for="train-station-checkbox">Train stations within: <span id="filter-train-station-value"></span> minute walk</label>
+                        </div>
+                        <input type="range" class="custom-range" min="0" max="30" step="1" value="15" id="filter-train-station" disabled>
+                    </div>
+                    <div class="snm-filter-item">
+                        <p class="snm-filter-item-label">Miscellaneous</p>
+                        <div class="custom-control custom-checkbox custom-control-inline">
+                            <input type="checkbox" class="custom-control-input" id="preschool-checkbox">
+                            <label class="custom-control-label" for="preschool-checkbox">Preschool</label>
+                        </div>
+                        <div class="custom-control custom-checkbox custom-control-inline">
+                            <input type="checkbox" class="custom-control-input" id="late-opening-checkbox">
+                            <label class="custom-control-label" for="late-opening-checkbox">Late Opening</label>
+                        </div>
+                        <div class="custom-control custom-checkbox custom-control-inline">
+                            <input type="checkbox" class="custom-control-input" id="intensive-english-centre-checkbox" disabled>
+                            <label class="custom-control-label" for="intensive-english-centre-checkbox">Intensive English Centre</label>
+                        </div>
+                        <div class="custom-control custom-checkbox custom-control-inline">
+                            <input type="checkbox" class="custom-control-input" id="healthy-canteen-checkbox">
+                            <label class="custom-control-label" for="healthy-canteen-checkbox">Healthy Canteen</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="snm-map col-md-8 col-xl-9" id="map"></div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script type="text/javascript" src="{{ url_for('static', filename='js/script.js') }}"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key={{ api_key }}&libraries=places&callback=initMap" async defer></script>
+{% endblock %}
