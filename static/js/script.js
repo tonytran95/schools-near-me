@@ -178,7 +178,7 @@ function getFiltersQuery() {
         query.push('support_classes=' + document.getElementById('filter-support-classes').value);
     }
     if (document.getElementById('train-station-checkbox').checked) {
-        query.push('train_duration=' + document.getElementById('filter-train-station').value);
+        query.push('train_duration=' + (document.getElementById('filter-train-station').value * 60));
     }
     if (!document.getElementById('opportunity-classes-checkbox').disabled && document.getElementById('opportunity-classes-checkbox').checked) {
         query.push('opportunity_classes=true');
