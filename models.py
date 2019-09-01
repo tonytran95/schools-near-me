@@ -30,7 +30,7 @@ class School(Document):
     attendance_rate = FloatField(required=False)
     selective_entry_score = IntField(required=False)
     opportunity_classes_entry_score = IntField(required=False)
-    train_station_id = IntField(required=False)
+    train_station_id = StringField(required=False)
     train_station = StringField(required=False)
     train_distance = IntField(required=False)
     train_duration = IntField(required=False)
