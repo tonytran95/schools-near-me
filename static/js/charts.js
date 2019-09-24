@@ -6,15 +6,6 @@ let icsea;
 let lat;
 let lng;
 
-function initMap() {
-    const location = {lat: lat, lng: lng}
-    map = new google.maps.Map(document.getElementById('snm-school-map'), {
-        center: location,
-        zoom: 16
-    });
-    const marker = new google.maps.Marker({position: location, map: map});
-}
-
 const initChartData = (_lat, _lng, _name, _indigenous_pct, _lbote_pct, _icsea) => {
     lat = _lat;
     lng = _lng;
@@ -22,8 +13,7 @@ const initChartData = (_lat, _lng, _name, _indigenous_pct, _lbote_pct, _icsea) =
     indigenous_pct = _indigenous_pct;
     lbote_pct = _lbote_pct;
     icsea = _icsea;
-}
-
+};
 
 const drawCharts = () => {
     let dataIndigenous;
@@ -132,7 +122,16 @@ const drawCharts = () => {
     }
     resizeCharts();
     window.onresize = resizeCharts;
-}
+};
 
 google.charts.load("current", {packages:["corechart"]});
 google.charts.setOnLoadCallback(drawCharts);
+
+function initMap() {
+    const location = {lat: lat, lng: lng}
+    map = new google.maps.Map(document.getElementById('snm-school-map'), {
+        center: location,
+        zoom: 16
+    });
+    const marker = new google.maps.Marker({position: location, map: map});
+}
