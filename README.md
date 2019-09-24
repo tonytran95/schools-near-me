@@ -1,7 +1,7 @@
 # schools-near-me
 Written in Python, Flask, Jinja2, Javascript, HTML5, CSS, and Bootstrap; using MongoDB for database.
 
-Web application designed for students and parents in NSW to find nearby schools based on their location.
+Web application designed for students and parents to find nearby NSW Government schools based on their location.
 Schools can be filtered out by different categories like:
 <ul>
     <li>Distance from selected location (1-20km)</li>
