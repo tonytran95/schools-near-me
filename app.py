@@ -66,14 +66,20 @@ def get_schools():
             '$match': {}
         }
     ]
+
     for arg in request.args:
-        param = request.args.get(arg)
+        if arg != 'gender' and arg != 'selective':
+            param = request.args.get(arg)
+        else:
+            param = request.args.getlist(arg)
         if arg == 'longitude' or arg == 'latitude':
             pipeline[0]['$geoNear']['near']['coordinates'].append(float(param))
         elif arg == 'distance':
             pipeline[0]['$geoNear']['maxDistance'] = int(param)
-        elif arg == 'level' or arg == 'gender' or arg == 'selective' or arg == 'support_classes':
+        elif arg == 'level' or arg == 'support_classes':
             pipeline[1]['$match'][arg] = param
+        elif arg == 'gender' or arg == 'selective':
+            pipeline[1]['$match'][arg] = {'$in': param}
         elif arg == 'enrolments' or arg == 'train_duration':
             pipeline[1]['$match'][arg] = {'$lte': int(param)}
         else:
@@ -98,4 +104,4 @@ def get_schools():
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)
