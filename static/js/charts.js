@@ -1,29 +1,34 @@
-var map;
+let map;
+let name;
+let indigenous_pct;
+let lbote_pct;
+let icsea;
+let lat;
+let lng;
+
 function initMap() {
-    var location = {lat: lat, lng: lng}
+    const location = {lat: lat, lng: lng}
     map = new google.maps.Map(document.getElementById('snm-school-map'), {
         center: location,
         zoom: 16
     });
-    var marker = new google.maps.Marker({position: location, map: map});
+    const marker = new google.maps.Marker({position: location, map: map});
 }
 
-var name, indigenous_pct, lbote_pct, icsea, lat, lng;
-function initChartData(lat, lng, name, indigenous_pct, lbote_pct, icsea) {
-    this.lat = lat;
-    this.lng = lng;
-    this.name = name;
-    this.indigenous_pct = indigenous_pct;
-    this.lbote_pct = lbote_pct;
-    this.icsea = icsea;
+const initChartData = (_lat, _lng, _name, _indigenous_pct, _lbote_pct, _icsea) => {
+    lat = _lat;
+    lng = _lng;
+    name = _name;
+    indigenous_pct = _indigenous_pct;
+    lbote_pct = _lbote_pct;
+    icsea = _icsea;
 }
 
-google.charts.load("current", {packages:["corechart"]});
-google.charts.setOnLoadCallback(drawCharts);
-function drawCharts() {
-    var dataIndigenous;
-    var dataLBOTE;
-    var dataICSEA;
+
+const drawCharts = () => {
+    let dataIndigenous;
+    let dataLBOTE;
+    let dataICSEA;
     if (indigenous_pct != -1) {
         dataIndigenous = google.visualization.arrayToDataTable([
             ['Student',                'Percentage'],
@@ -61,7 +66,7 @@ function drawCharts() {
             ['No Data',            0]
         ]);
     }
-    var optionsIndigenous = {
+    const optionsIndigenous = {
         height: 275,
         pieHole: 0.4,
         backgroundColor: 'transparent',
@@ -78,7 +83,7 @@ function drawCharts() {
         optionsIndigenous["colors"] = ["#444"]
     }
 
-    var optionsLBOTE = {
+    const optionsLBOTE = {
         height: 275,
         pieHole: 0.4,
         backgroundColor: 'transparent',
@@ -95,7 +100,7 @@ function drawCharts() {
         optionsLBOTE["colors"] = ["#444"]
     }
 
-    var optionsICSEA = {
+    const optionsICSEA = {
         height: 275,
         backgroundColor: 'transparent',
         legend: {
@@ -117,14 +122,17 @@ function drawCharts() {
         }
     }
 
-    function resizeCharts() {
-        var chartIndigenous = new google.visualization.PieChart(document.getElementById('indigenous-chart'));
+    const resizeCharts = () => {
+        const chartIndigenous = new google.visualization.PieChart(document.getElementById('indigenous-chart'));
         chartIndigenous.draw(dataIndigenous, optionsIndigenous);
-        var chartLBOTE = new google.visualization.PieChart(document.getElementById('lbote-chart'));
+        const chartLBOTE = new google.visualization.PieChart(document.getElementById('lbote-chart'));
         chartLBOTE.draw(dataLBOTE, optionsLBOTE);
-        var chartICSEA = new google.visualization.ColumnChart(document.getElementById('icsea-chart'));
+        const chartICSEA = new google.visualization.ColumnChart(document.getElementById('icsea-chart'));
         chartICSEA.draw(dataICSEA, optionsICSEA);
     }
     resizeCharts();
     window.onresize = resizeCharts;
 }
+
+google.charts.load("current", {packages:["corechart"]});
+google.charts.setOnLoadCallback(drawCharts);
