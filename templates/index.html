@@ -4,14 +4,8 @@
     <li class="nav-item active">
         <a class="nav-link" href="{{ url_for('index') }}">Home</a>
     </li>
-    <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown">Schools</a>
-        <div class="dropdown-menu">
-            <a class="dropdown-item" href="{{ url_for('school_list', level='primary') }}">Primary Schools</a>
-            <a class="dropdown-item" href="{{ url_for('school_list', level='secondary') }}">Secondary Schools</a>
-            <a class="dropdown-item" href="{{ url_for('school_list', level='central') }}">Central Schools</a>
-            <a class="dropdown-item" href="{{ url_for('school_list', level='specific') }}">Schools for Specific Purposes</a>
-        </div>
+    <li class="nav-item">
+        <a class="nav-link" href="{{ url_for('school_list') }}">Schools</a>
     </li>
 {% endblock %}
 

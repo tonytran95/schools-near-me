@@ -161,6 +161,62 @@ html, body {
     }
 }
 
+/* school_list.html styling */
+#snm-school-list-loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    background-color: #fff;
+}
+
+.snm-school-list-sidebar {
+    position: sticky;
+    height: calc(100vh - 56px);
+    top: 56px;
+    padding: 15px;
+    border-right: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.snm-school-list-content {
+    background-color: #fff;
+}
+
+.snm-school-list-card {
+    border: 1px solid #007bff;
+    border-radius: 5px;
+}
+
+.snm-school-list-card-col1 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+}
+
+@media only screen and (max-width: 767.98px) {
+    .snm-school-list-sidebar {
+        position: relative;
+        height: auto;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        border-right: 0;
+        top: 0;
+    }
+
+    #snm-school-list-loading {
+        position: fixed;
+        height: calc(100vh - 56px);
+        top: 56px;
+        left: 0;
+    }
+
+    .snm-school-list-card {
+        margin: 0;
+    }
+}
+
 /* school_profile.html styling */
 #snm-school-map {
     height: 300px;
