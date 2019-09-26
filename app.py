@@ -85,5 +85,17 @@ def get_schools():
     return jsonify(response)
 
 
+@app.route('/api/schools/all', methods=['GET'])
+def get_all_schools():
+    schools = School.objects()
+    response = []
+    for school in schools:
+        temp = {}
+        for key in school:
+            temp[key] = school[key]
+        response.append(temp)
+    return jsonify(response)
+
+
 if __name__ == '__main__':
     app.run(debug=True)

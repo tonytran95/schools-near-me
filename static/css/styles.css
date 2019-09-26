@@ -161,6 +161,16 @@ html, body {
     }
 }
 
+.snm-compare-counter {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.snm-btn-compare {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
 /* school_list.html styling */
 #snm-school-list-loading {
     display: flex;
@@ -175,17 +185,72 @@ html, body {
     position: sticky;
     height: calc(100vh - 56px);
     top: 56px;
-    padding: 15px;
+    padding: 0;
     border-right: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.snm-school-list-search {
+    background-color: #eee;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 15px;
+}
+
+.snm-school-list-filter-list-toggler {
+    background-color: #ddd;
+    text-align: center;
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 auto;
+    flex: 0 0 auto;
+}
+
+.snm-school-list-filter-list-toggler > button {
+    width: 100%;
+    transition: transform 0.3s;
+}
+
+.snm-school-list-filter-list-toggler > .collapsed {
+    transform: rotate(-180deg);
+}
+
+.snm-school-list-filters {
+    padding: 15px;
+    background-color: #f7f7f7;
+}
+
+.snm-school-list-filters-item {
+    padding: 15px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.snm-school-list-filters-item:last-child {
+    border-bottom: 0;
+}
+
+.snm-school-list-filters-item-label {
+    font-weight: 600;
 }
 
 .snm-school-list-content {
     background-color: #fff;
 }
 
+.snm-school-list-content-header,
+.snm-school-list-content-footer {
+    display: flex;
+    justify-content: space-between;
+}
+
+.snm-school-list-content-header > p,
+.snm-school-list-content-header > h6 {
+    margin-top: 16px;
+    margin-bottom: 0;
+}
+
 .snm-school-list-card {
     border: 1px solid #007bff;
+    border-top: 25px solid #007bff;
     border-radius: 5px;
+    padding: 10px;
 }
 
 .snm-school-list-card-col1 {
@@ -193,7 +258,43 @@ html, body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 15px;
+    text-align: center;
+}
+
+.snm-school-list-card-col1 > img {
+    height: 100px;
+}
+
+.snm-school-list-card-col2 > p.h6,
+.snm-school-list-card-col3 > p.h6 {
+    margin-bottom: 0;
+}
+
+.snm-school-list-card-col2 > p:not(.h6),
+.snm-school-list-card-col3 > p:not(.h6) {
+    background-color: #eee;
+}
+
+.snm-school-list-card-buttons {
+    display: flex;
+}
+
+.snm-school-list-card-buttons > a {
+    flex: 1 1 auto;
+}
+
+.snm-school-list-card-btn-website {
+    margin-right: 5px;
+}
+
+.snm-school-list-card-btn-compare {
+    margin-left: 5px;
+}
+
+@media only screen and (min-width: 768px) {
+    .snm-school-list-filter-list {
+        display: block !important;
+    }
 }
 
 @media only screen and (max-width: 767.98px) {

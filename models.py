@@ -16,6 +16,8 @@ class School(Document):
     enrolments = IntField(required=True)
     level = StringField(required=True)
     opportunity_classes = BooleanField(requred=True)
+    specialty_type = StringField(required=True)
+    subtype = StringField(required=True)
     selective = StringField(required=True)
     gender = StringField(required=True)
     location = PointField(required=True)
@@ -37,8 +39,9 @@ class School(Document):
     meta = {'collection': 'schools'}
 
     def __init__(self, code, name, street, suburb, postcode, phone, email, website, fax, enrolments,
-                 level, opportunity_classes, selective, gender, location, preschool, late_opening,
-                 intensive_english_centre, healthy_canteen, indigenous_pct, lbote_pct, icsea, *args, **kwargs):
+                 level, opportunity_classes, specialty_type, subtype, selective, gender, location, preschool,
+                 late_opening, intensive_english_centre, healthy_canteen, indigenous_pct, lbote_pct, icsea,
+                 *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.code = code
         self.name = name
@@ -52,6 +55,8 @@ class School(Document):
         self.enrolments = enrolments
         self.level = level
         self.opportunity_classes = opportunity_classes
+        self.specialty_type = specialty_type
+        self.subtype = subtype
         self.selective = selective
         self.gender = gender
         self.location = location
